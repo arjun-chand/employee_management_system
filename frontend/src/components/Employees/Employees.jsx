@@ -5,7 +5,6 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import axios from 'axios';
 import SearchSharpIcon from '@mui/icons-material/SearchSharp';
 import { useNavigate } from "react-router-dom";
@@ -15,25 +14,24 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import PlaceIcon from '@mui/icons-material/Place';
 import FlagIcon from '@mui/icons-material/Flag';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
-import Box from '@mui/material/Box';
+import { useState } from "react";
 
 
 
 
 export default function Employees() {
-  const [employees, setEmployees] = React.useState([]);
-  const [filterPopupOpen, setFilterPopupOpen] = React.useState(false);
-  const [sortBy, setSortBy] = React.useState('');
-  const [selectedCities, setSelectedCities] = React.useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [filterPopupOpen, setFilterPopupOpen] = useState(false);
+  const [sortBy, setSortBy] = useState('');
+  const [selectedCities, setSelectedCities] = useState([]);
   const navigate = useNavigate();
-
   React.useEffect(() => {
     getEmployees();
   }, []);
 
   const getEmployees = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/EMS/employee/allEmployees");
+      const response = await axios.get("http://localhost:3100/emp/allEmployees");
       setEmployees(response.data);
     } catch (error) {
       console.error('Error fetching employees:', error);
@@ -44,7 +42,7 @@ export default function Employees() {
     const key = e.target.value;
 
     if (key) {
-      const response = await axios.get(`http://localhost:5000/EMS/employee/search/${key}`)
+      const response = await axios.get(`http://localhost:3100/emp/search/${key}`)
       if (response.data) {
         setEmployees(response.data);
       }

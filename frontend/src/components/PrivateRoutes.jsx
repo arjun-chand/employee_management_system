@@ -3,8 +3,8 @@ import { Navigate, Outlet } from 'react-router-dom'
 import Navbar from './Navbar'
 
 const PrivateRoutes = () => {
-  const auth = localStorage.getItem('user')
-  return auth ?
+  const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
+  return token ?
     <div>
       <Navbar />
       <Outlet />

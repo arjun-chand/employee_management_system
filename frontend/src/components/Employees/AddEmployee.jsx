@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import Axios
 import { useNavigate } from 'react-router-dom';
 
@@ -9,10 +9,14 @@ import StepButton from '@mui/material/StepButton';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
+import { Country, State, City } from 'country-state-city';
+import Select from 'react-select';
+
 
 const steps = ['Fill Employee Peronal Details', 'Contact Details', 'Form Submission'];
 
 export default function AddEmployee() {
+
   const [activeStep, setActiveStep] = useState(0);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -24,7 +28,58 @@ export default function AddEmployee() {
   const [education, setEducation] = useState('');
   const [hobbies, setHobbies] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const [countryOptions, setCountryOptions] = useState([]);
+  const [stateOptions, setStateOptions] = useState([]);
+  const [cityOptions, setCityOptions] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const countries = Country.getAllCountries().map(country => ({
+      value: country.isoCode,
+      label: country.name
+    }));
+    setCountryOptions(countries);
+  }, []);
+
+  useEffect(() => {
+    if (country) {
+      const states = State.getStatesOfCountry(country);
+      setStateOptions(states.map(state => ({
+        value: state.isoCode,
+        label: state.name
+      })));
+    }
+  }, [country]);
+
+  useEffect(() => {
+    if (state) {
+      const cities = City.getCitiesOfState(country, state);
+      setCityOptions(cities.map(city => ({
+        value: city.name,
+        label: city.name
+      })));
+    }
+  }, [country, state]);
+
+  const handleCountryChange = (selectedOption) => {
+    setSelectedCountry(selectedOption.value);
+    setCountry(selectedOption.value); // Update country state
+  };
+
+  const handleStateChange = (selectedOption) => {
+    setSelectedState(selectedOption.value);
+    setState(selectedOption.value); // Update state state
+  };
+
+  const handleCityChange = (selectedOption) => {
+    setSelectedCity(selectedOption.value);
+    setCity(selectedOption.value); // Update city state
+  };
+
+
 
   // Function to validate email using regex
   const validateEmail = (email) => {
@@ -113,61 +168,28 @@ export default function AddEmployee() {
                   <option value="Other">Other</option>
                 </select>
 
-                <select
-                  onChange={(e) => setCity(e.target.value)}
-                  value={city}
-                  type="text"
-                  name="city"
-                  id="city"
-                  className="block w-full md:w-auto rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-violet-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-500 sm:text-sm sm:leading-6"
-                >
-                  <option value="">Select City</option>
-                  <option value="Mumbai">Mumbai</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Bangalore">Bangalore</option>
-                  <option value="Ahmedabad">Ahmedabad</option>
-                  <option value="Dehradun">Dehradun</option>
-                  <option value="Lucknow">Lucknow</option>
-                  <option value="New York">New York</option>
-                  <option value="Shanghai">Shanghai</option>
-                  <option value="London">London</option>
-                </select>
-                <select
-                  onChange={(e) => setState(e.target.value)}
-                  value={state}
-                  type="text"
-                  name="state"
-                  id="state"
-                  className="block w-full md:w-auto rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-violet-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-500 sm:text-sm sm:leading-6"
-                >
-                  <option value="">Select State</option>
-                  <option value="Maharashtra">Maharashtra</option>
-                  <option value="Uttarakhand">Uttarakhand</option>
-                  <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                  <option value="Texas">Texas</option>
-                  <option value="Florida">Florida</option>
-                  <option value="Karnataka">Karnataka</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Gujarat">Gujarat</option>
-                </select>
-                <select
-                  onChange={(e) => setCountry(e.target.value)}
-                  value={country}
-                  type="text"
-                  name="country"
-                  id="country"
-                  className="block w-full md:w-auto rounded-md border px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-violet-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-500 sm:text-sm sm:leading-6"
-                >
-                  <option value="">Select Country</option>
-                  <option value="India">India</option>
-                  <option value="Russia">Russia</option>
-                  <option value="United States">United States</option>
-                  <option value="China">China</option>
-                  <option value="Japan">Japan</option>
-                  <option value="South Korea">South Korea</option>
-                  <option value="Israel">Israel</option>
-                  <option value="UAE">UAE</option>
-                </select>
+                <Select
+                  value={{ value: selectedCountry, label: selectedCountry }}
+                  onChange={handleCountryChange}
+                  options={countryOptions}
+                  placeholder="Select Country"
+                />
+
+                <Select
+                  value={{ value: selectedState, label: selectedState }}
+                  onChange={handleStateChange}
+                  options={stateOptions}
+                  placeholder="Select State"
+                />
+
+                <Select
+                  value={{ value: selectedCity, label: selectedCity }}
+                  onChange={handleCityChange}
+                  options={cityOptions}
+                  placeholder="Select City"
+                />
+
+
 
 
                 <input
@@ -220,25 +242,25 @@ export default function AddEmployee() {
             <div>
               {activeStep === steps.length - 1 && (
                 <div className='pb-10 mx-auto'>
-                  <div className='p-6 w-3/5 mx-auto rounded-3xl bg-violet-100'  sx={{ display: 'flex', boxShadow: '0px 5px 20px rgba(0, 10, 5, 0.3)', width:'40%'}}>
-                  <h1 className='text-lg leading-6 font-medium text-gray-900 text-center my-6'>Employee Details</h1>
-                  <div className='flex justify-between'><p>Name</p><p>:</p><p> {name}</p></div>
-                  <div className='flex justify-between mt-2'><p>Email</p><p>:</p><p>{email}</p></div>
-                  <div className='flex justify-between  mt-2'><p>City</p><p>:</p><p>{city}</p></div>
-                  <div className='flex justify-between  mt-2'><p>State</p><p>:</p><p>{state}</p></div>
-                  <div className='flex justify-between  mt-2'><p>Country</p><p>:</p><p>{country}</p></div>
-                  <div className='flex justify-between  mt-2'><p>Gender</p><p>:</p><p>{gender}</p></div>
-                  <div className='flex justify-between  mt-2'><p>Education</p><p>:</p><p>{education}</p></div>
-                  <div className='flex justify-between  mt-2 mb-5'><p>Hobbies</p><p>:</p><p>{hobbies}</p></div>
+                  <div className='p-6 w-3/5 mx-auto rounded-3xl bg-violet-100' sx={{ display: 'flex', boxShadow: '0px 5px 20px rgba(0, 10, 5, 0.3)', width: '40%' }}>
+                    <h1 className='text-lg leading-6 font-medium text-gray-900 text-center my-6'>Employee Details</h1>
+                    <div className='flex justify-between'><p>Name</p><p>:</p><p> {name}</p></div>
+                    <div className='flex justify-between mt-2'><p>Email</p><p>:</p><p>{email}</p></div>
+                    <div className='flex justify-between  mt-2'><p>City</p><p>:</p><p>{city}</p></div>
+                    <div className='flex justify-between  mt-2'><p>State</p><p>:</p><p>{state}</p></div>
+                    <div className='flex justify-between  mt-2'><p>Country</p><p>:</p><p>{country}</p></div>
+                    <div className='flex justify-between  mt-2'><p>Gender</p><p>:</p><p>{gender}</p></div>
+                    <div className='flex justify-between  mt-2'><p>Education</p><p>:</p><p>{education}</p></div>
+                    <div className='flex justify-between  mt-2 mb-5'><p>Hobbies</p><p>:</p><p>{hobbies}</p></div>
                   </div>
-                  <button className='text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700  hover:cursor-pointer hover:scale-105 hover:duration-200 hover:transition-transform hover:ease-in-out shadow-2xl' onClick={handleSubmit}>Submit <TurnedInIcon className='mx-1'/></button>
+                  <button className='text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700  hover:cursor-pointer hover:scale-105 hover:duration-200 hover:transition-transform hover:ease-in-out shadow-2xl' onClick={handleSubmit}>Submit <TurnedInIcon className='mx-1' /></button>
                 </div>
               )}
             </div>
             <div className="flex justify-between mt-10">
               {activeStep !== 0 && (
                 <button className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700  hover:cursor-pointer hover:scale-105 hover:duration-200 hover:transition-transform hover:ease-in-out shadow-2xl" onClick={handleBack} sx={{ mr: 1 }}>
-                  <KeyboardReturnIcon className='mx-1'/>
+                  <KeyboardReturnIcon className='mx-1' />
                   Back
                 </button>
               )}
@@ -246,7 +268,7 @@ export default function AddEmployee() {
                 <div>
                   <Box sx={{ flex: '1 1 auto' }} />
                   <button className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700  hover:cursor-pointer hover:scale-105 hover:duration-200 hover:transition-transform hover:ease-in-out shadow-2xl" onClick={handleNext} sx={{ mr: 1 }}>
-                    Next <ArrowRightAltIcon className='mx-1'/>
+                    Next <ArrowRightAltIcon className='mx-1' />
                   </button>
                 </div>
               )}

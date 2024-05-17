@@ -21,7 +21,7 @@ const Login = () => {
     console.log(userData);
     if (userData.token) {
         // Store token in a secure cookie
-        document.cookie = `token=${userData.token}; Path=/; Secure; HttpOnly; SameSite=Strict`;
+        document.cookie = `token=${userData.token};`;
         // Redirect to the home page
         navigate('/');
       }

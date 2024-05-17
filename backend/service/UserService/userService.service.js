@@ -10,7 +10,6 @@ async function signup(user) {
         if (existingUser) {
             throw new Error('Email already exists');
         }
-
         // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 

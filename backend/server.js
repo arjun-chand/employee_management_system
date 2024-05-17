@@ -28,6 +28,12 @@ app.get("/", (req, res) => {
   });
 })();
 
+// sequelize.sync().then(() => {
+//   console.log('All models were synchronized successfully.');
+// }).catch(err => {
+//   console.error('An error occurred while synchronizing models:', err);
+// });
+
 app.listen(port, async function () {
     console.log("Server is running on port " + port);
     sequelize

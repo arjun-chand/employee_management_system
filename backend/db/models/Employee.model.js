@@ -42,7 +42,7 @@ const Employee = sequelize.define(
         }
     },
     {
-        tableName: 'employees', // Set the table name
+        tableName: 'Employee', // Set the table name
         timestamps: false // Disable timestamps if not needed
     }
 );
