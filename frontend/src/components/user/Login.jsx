@@ -8,6 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async()=>{
+    try{
     console.log(email, password);
     let response =await axios.post('http://localhost:3100/signin',
      {email, password},
@@ -16,16 +17,20 @@ const Login = () => {
         "Content-Type":"application/json"
       }
     })
-    response = await response.data;
-    console.log(response);
-    if(response.name){
-      localStorage.setItem('user',JSON.stringify(response));
-      navigate('/')
+    const userData = await response.data;
+    console.log(userData);
+    if (userData.token) {
+        // Store token in a secure cookie
+        document.cookie = `token=${userData.token}; Path=/; Secure; HttpOnly; SameSite=Strict`;
+        // Redirect to the home page
+        navigate('/');
+      }
+    } catch (error) {
+      // Handle error here
+      console.error('Error:', error);
+      alert("Invalid Credentials");
     }
-    else{
-     alert('Invalid Credentials');
-    }
-    
+
   }
 
   const handleSignup=()=>{
