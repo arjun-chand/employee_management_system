@@ -99,6 +99,7 @@ export default function AddEmployee() {
   const handleSubmit = async () => {
     // Validate email before submitting
     if (!validateEmail(email)) {
+      alert("Invalid email address.");
       setEmailError('Please enter a valid email');
       return;
     }

@@ -27,6 +27,7 @@ const Signup = () => {
       return;
     }
     if (!validateEmail(email)) {
+      alert("Email address is not valid");
       setEmailError("Please enter a valid email");
       return;
     }
