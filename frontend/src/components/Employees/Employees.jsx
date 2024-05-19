@@ -87,25 +87,25 @@ export default function Employees() {
   return (
     <div>
       <div>
-        <div className="flex m-3">
-          <div className="flex gap-2">
-            <div>
-              <Card sx={{ minWidth: 180, maxHeight: 150, bgcolor: 'black', borderRadius: '20px' }} className="p-0  mt-2 flex gap-3 bg-gray-950">
+        <div className="flex">
+          <div className="flex mx-5">
+            <div className="flex">
+              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="ml-2  mt-2 flex gap-3 bg-gray-950">
                 <CardContent className="m-0 p-0">
                   <img src="../../public/employee.svg" className="h-10" />
                   <h3 className="text-white text-xs font-bold mt-2">Total Employees</h3>
-                  <h1 className="text-white text-2xl font-bold">2102</h1>
+                  <h1 className="text-white text-2xl font-bold">{employees.length}</h1>
                   <div className="flex">
                   <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
                   <h4 className="text-white text-sm font-semibold"> This Month</h4></div>
                 </CardContent>
               </Card>
 
-              <Card sx={{ minWidth: 180, maxHeight: 150, bgcolor: 'black', borderRadius: '20px' }} className="flex mt-2">
+              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="flex mt-2 ml-2">
                 <CardContent>
                   <img src="../../public/totalTasks.svg" className="h-10" />
                   <h3 className="text-white text-xs font-bold mt-2">Total Employees</h3>
-                  <h1 className="text-white text-2xl font-bold">2102</h1>
+                  <h1 className="text-white text-2xl font-bold">1212</h1>
                   <div className="flex justify-center">
                   <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
                   <h4 className="text-white text-sm font-semibold"> This Month</h4></div>
@@ -113,8 +113,8 @@ export default function Employees() {
               </Card>
             </div>
 
-            <div>
-              <Card sx={{ minWidth: 180, maxHeight: 150, bgcolor: 'black', borderRadius: '20px' }} className=" mt-2">
+            <div className="flex">
+              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="ml-2 mt-2">
                 <CardContent>
                   <img src="../../public/taskCompleted.svg" className="h-10" />
                   <h3 className="text-white text-xs font-bold mt-2">Completed Tasks</h3>
@@ -124,7 +124,7 @@ export default function Employees() {
                   <h4 className="text-white text-sm font-semibold"> This Month</h4></div>
                 </CardContent>
               </Card>
-              <Card sx={{ minWidth: 180, maxHeight: 150, bgcolor: 'black', borderRadius: '20px' }} className=" mt-2">
+              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="ml-2 mt-2">
                 <CardContent>
                   <img src="../../public/pendingTask.svg" className="h-10" />
                   <h3 className="text-white text-xs font-bold mt-2">Incompleted Tasks</h3>
@@ -137,7 +137,7 @@ export default function Employees() {
             </div>
           </div>
          
-            <EmpCityBar/>
+            <EmpCityBar className="mt-2"/>
           
         </div>
       </div>
