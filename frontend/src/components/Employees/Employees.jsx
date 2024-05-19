@@ -85,8 +85,8 @@ export default function Employees() {
   });
 
   return (
-    <div>
-      <div>
+    <div >
+      <div className="mt-5">
         <div className="flex">
           <div className="flex mx-5">
             <div className="flex">
@@ -142,12 +142,12 @@ export default function Employees() {
         </div>
       </div>
 
-      <h1 className="text-3xl font-semibold text-violet-500 dark:text-white my-3 py-2 text-center">Employees</h1>
+      <h1 className="text-3xl font-semibold text-violet-500 dark:text-white my-3 py-2 text-center">Your Employees</h1>
       <div>
         <div className=" searchAndFilter flex mx-auto items-center justify-between md:px-10 px-3 mt-3">
 
           <div className="flex items-center">
-            <div className='flex bg-white rounded-3xl w-80 mx-2 justify-center bg-gray-200 relative'>
+            <div className='flex bg-white rounded-3xl w-80 mx-2 justify-center relative'>
               <input
                 onChange={handleSearch}
                 type="text"

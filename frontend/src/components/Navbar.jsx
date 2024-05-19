@@ -23,7 +23,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <Disclosure as="nav" className="bg-violet-400	">
+      <Disclosure as="nav" className="bg-gradient-to-r from-violet-300 to-purple-700">
         {({ open }) => (
           <>
             <div className=" max-w-9xl px-2 sm:px-6 lg:px-8">
