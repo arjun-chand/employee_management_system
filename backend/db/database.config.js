@@ -15,4 +15,8 @@ const sequelize = new Sequelize(
     }
 );
 
+(async () => {
+    await sequelize.sync();
+  })();
+
 module.exports = sequelize;

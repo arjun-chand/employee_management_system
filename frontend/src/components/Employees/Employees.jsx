@@ -15,7 +15,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import FlagIcon from '@mui/icons-material/Flag';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
 import { useState } from "react";
-
+import EmpCityBar from './EmpCityBar'
 
 
 
@@ -86,56 +86,60 @@ export default function Employees() {
 
   return (
     <div>
-      <div className="flex justify-center gap-5 mx-5 my-5 align-middle">
-        <Card  sx={{ minWidth: 180, minHeight:250}} className="p-0 flex gap-3 justify-center bg-gradient-to-r from-gray-100 to-stone-100"> 
-          <CardContent className="m-0 p-0">
-            
-                <img src="../../public/employee.svg" className="h-10"/>
-            
-            <h3 className="text-gray-600 text-xs font-bold mt-2">Total Employees</h3>
-            <h1 className="text-gray-700 text-2xl font-bold">2102</h1>
-            <div className="flex">
-              <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
-              <h4 className="text-gray-600 text-sm font-semibold"> This Month</h4></div>
-          </CardContent>
-        </Card>
-        <Card sx={{ minWidth: 180, height: 150 }} className="flex justify-center bg-gradient-to-r from-gray-100 to-stone-100"> 
-          <CardContent>
-            <div className="flex justify-center">
-                <img src="../../public/totalTasks.svg" className="h-14"/>
-            </div>
-            <h3 className="text-gray-600 text-xs font-bold text-center mt-2">Total Employees</h3>
-            <h1 className="text-gray-700 text-2xl font-bold text-center">2102</h1>
-            <div className="flex justify-center">
-              <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
-              <h4 className="text-gray-600 text-sm font-semibold"> This Month</h4></div>
-          </CardContent>
-        </Card>
-        <Card sx={{ minWidth: 180, height: 150 }} className="flex justify-center bg-gradient-to-r from-gray-100 to-stone-100"> 
-          <CardContent>
-            <div className="flex justify-center">
-                <img src="../../public/taskCompleted.svg" className="h-14"/>
-            </div>
-            <h3 className="text-gray-600 text-xs font-bold text-center mt-2">Completed Tasks</h3>
-            <h1 className="text-gray-700 text-2xl font-bold text-center">2102</h1>
-            <div className="flex justify-center">
-              <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
-              <h4 className="text-gray-600 text-sm font-semibold"> This Month</h4></div>
-          </CardContent>
-        </Card>
-        <Card sx={{ minWidth: 180, height: 150 }} className="flex justify-center bg-gradient-to-r from-gray-100 to-stone-100"> 
-          <CardContent>
-            <div className="flex justify-center">
-                <img src="../../public/pendingTask.svg" className="h-14"/>
-            </div>
-            <h3 className="text-gray-600 text-xs font-bold text-center mt-2">Incompleted Tasks</h3>
-            <h1 className="text-gray-700 text-2xl font-bold text-center">2102</h1>
-            <div className="flex justify-center">
-              <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
-              <h4 className="text-gray-600 text-sm font-semibold"> This Month</h4></div>
-          </CardContent>
-        </Card>
+      <div>
+        <div className="flex m-3">
+          <div className="flex gap-2">
+            <div>
+              <Card sx={{ minWidth: 180, maxHeight: 150, bgcolor: 'black', borderRadius: '20px' }} className="p-0  mt-2 flex gap-3 bg-gray-950">
+                <CardContent className="m-0 p-0">
+                  <img src="../../public/employee.svg" className="h-10" />
+                  <h3 className="text-white text-xs font-bold mt-2">Total Employees</h3>
+                  <h1 className="text-white text-2xl font-bold">2102</h1>
+                  <div className="flex">
+                  <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
+                  <h4 className="text-white text-sm font-semibold"> This Month</h4></div>
+                </CardContent>
+              </Card>
 
+              <Card sx={{ minWidth: 180, maxHeight: 150, bgcolor: 'black', borderRadius: '20px' }} className="flex mt-2">
+                <CardContent>
+                  <img src="../../public/totalTasks.svg" className="h-10" />
+                  <h3 className="text-white text-xs font-bold mt-2">Total Employees</h3>
+                  <h1 className="text-white text-2xl font-bold">2102</h1>
+                  <div className="flex justify-center">
+                  <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
+                  <h4 className="text-white text-sm font-semibold"> This Month</h4></div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div>
+              <Card sx={{ minWidth: 180, maxHeight: 150, bgcolor: 'black', borderRadius: '20px' }} className=" mt-2">
+                <CardContent>
+                  <img src="../../public/taskCompleted.svg" className="h-10" />
+                  <h3 className="text-white text-xs font-bold mt-2">Completed Tasks</h3>
+                  <h1 className="text-white text-2xl font-bold">2102</h1>
+                  <div className="flex justify-center">
+                  <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
+                  <h4 className="text-white text-sm font-semibold"> This Month</h4></div>
+                </CardContent>
+              </Card>
+              <Card sx={{ minWidth: 180, maxHeight: 150, bgcolor: 'black', borderRadius: '20px' }} className=" mt-2">
+                <CardContent>
+                  <img src="../../public/pendingTask.svg" className="h-10" />
+                  <h3 className="text-white text-xs font-bold mt-2">Incompleted Tasks</h3>
+                  <h1 className="text-white text-2xl font-bold">2102</h1>
+                  <div className="flex justify-center">
+                    <h3 className="text-green-400 font-semibold text-sm mx-1">+25% </h3>
+                    <h4 className="text-white text-sm font-semibold"> This Month</h4></div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+         
+            <EmpCityBar/>
+          
+        </div>
       </div>
 
       <h1 className="text-3xl font-semibold text-violet-500 dark:text-white my-3 py-2 text-center">Employees</h1>
