@@ -1,5 +1,6 @@
-const { Sequelize } = require("sequelize");
+const  { Sequelize }  = require("sequelize");
 const dotenv = require("dotenv").config({ path: '.env.dev' });
+
 
 if (dotenv.error) {
     throw new Error("Error loading environment variables from .env.dev file");
@@ -15,8 +16,8 @@ const sequelize = new Sequelize(
     {
         host: "localhost",
         dialect: "mysql",
-        logging: false,
-    }
+        logging: false
+    },
 );
 
 (async () => {

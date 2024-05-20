@@ -87,11 +87,11 @@ export default function Employees() {
   return (
     <div >
       <div className="mt-5">
-        <div className="flex">
-          <div className="flex mx-5">
-            <div className="flex">
-              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="ml-2  mt-2 flex gap-3 bg-gray-950">
-                <CardContent className="m-0 p-0">
+        <div className="cardgraphgroup flex">
+          <div className="cardgroup flex mx-5">
+            <div className="cardgroup2 flex">
+              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="discard ml-2  mt-2 flex gap-3 bg-gray-950">
+                <CardContent className=" m-0 p-0">
                   <img src="../../public/employee.svg" className="h-10" />
                   <h3 className="text-white text-xs font-bold mt-2">Total Employees</h3>
                   <h1 className="text-white text-2xl font-bold">{employees.length}</h1>
@@ -101,7 +101,7 @@ export default function Employees() {
                 </CardContent>
               </Card>
 
-              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="flex mt-2 ml-2">
+              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className=" discard flex mt-2 ml-2">
                 <CardContent>
                   <img src="../../public/totalTasks.svg" className="h-10" />
                   <h3 className="text-white text-xs font-bold mt-2">Total Employees</h3>
@@ -113,8 +113,8 @@ export default function Employees() {
               </Card>
             </div>
 
-            <div className="flex">
-              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="ml-2 mt-2">
+            <div className="cardgroup2 flex">
+              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="discard ml-2 mt-2">
                 <CardContent>
                   <img src="../../public/taskCompleted.svg" className="h-10" />
                   <h3 className="text-white text-xs font-bold mt-2">Completed Tasks</h3>
@@ -124,7 +124,7 @@ export default function Employees() {
                   <h4 className="text-white text-sm font-semibold"> This Month</h4></div>
                 </CardContent>
               </Card>
-              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="ml-2 mt-2">
+              <Card sx={{ minWidth: 180, maxHeight: 250, bgcolor: 'black', borderRadius: '20px' }} className="discard ml-2 mt-2">
                 <CardContent>
                   <img src="../../public/pendingTask.svg" className="h-10" />
                   <h3 className="text-white text-xs font-bold mt-2">Incompleted Tasks</h3>
@@ -137,7 +137,7 @@ export default function Employees() {
             </div>
           </div>
          
-            <EmpCityBar className="mt-2"/>
+            <EmpCityBar className="discard mt-2"/>
           
         </div>
       </div>

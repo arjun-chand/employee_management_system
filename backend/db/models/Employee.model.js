@@ -1,9 +1,14 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database.config');
+const sequelize = require('../database.config'); // Adjust path as necessary
 
 const Employee = sequelize.define(
     'Employee',
     {
+        id: {
+            type: DataTypes.BIGINT,
+            primaryKey: true,
+            autoIncrement: true,
+          },
         name: {
             type: DataTypes.STRING,
             allowNull: false
@@ -14,35 +19,35 @@ const Employee = sequelize.define(
             unique: true
         },
         phone: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(200),
             allowNull: false,
             unique: true
         },
         city: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(200)
         },
         state: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(200)
         },
         country: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(200),
             allowNull: false
         },
         gender: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(10),
             validate: {
                 isIn: [['Male', 'Female', 'Other']]
             }
         },
         education: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING(200)
         },
         hobbies: {
-            type: DataTypes.ARRAY(DataTypes.STRING)
+            type: DataTypes.ARRAY(DataTypes.STRING(200))
         }
     },
     {
-        tableName: 'employees', // Set the table name
+        tableName: 'Employee', // Set the table name
         timestamps: false // Disable timestamps if not needed
     }
 );
