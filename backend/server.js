@@ -9,11 +9,17 @@ const morgan = require("morgan");
 const dotenv = require("dotenv").config({path:'./.env.dev'});
 const port = process.env.PORT;
 const cookieParser = require('cookie-parser');
-app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cookieParser());
+const corsOptions = {
+  origin: 'http://localhost:5173', // Your React app's origin
+  credentials: true, // Allow credentials (cookies)
+};
+
+app.use(cors(corsOptions));
+
 
 // Serve static folders
 

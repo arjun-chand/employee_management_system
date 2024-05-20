@@ -53,8 +53,20 @@ async function signin(email, password) {
         throw new Error('Error signing in user: ' + error.message);
     }
 }
+async function getProfile(req, res) { // Accept req and res as parameters
+    try {
+        const user = await User.findByPk(req.user.id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        return user; // Return the user object
+    } catch (error) {
+        throw new Error('Error fetching user profile: ' + error.message);
+    }
+}
 
 module.exports = {
     signup,
-    signin
+    signin,
+    getProfile
 };

@@ -33,4 +33,13 @@ router.post('/signin', async (req, res) => {
     }
 });
 
+router.get('/profile', authorize, async (req, res) => {
+    try {
+        const result = await UserService.getProfile(req, res); // Pass req and res
+        res.json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(error.message);
+    }
+});
 module.exports = router;
