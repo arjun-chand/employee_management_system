@@ -1,11 +1,29 @@
 const Employee = require('../../db/models/Employee.model');
+const { Op, Sequelize } = require('sequelize');
 
-// Add Employee
+async function isUniqueEmployee(email, phone) {
+    const existingEmployee = await Employee.findOne({
+        where: {
+            [Op.or]: [
+                { email: email },
+                { phone: phone }
+            ]
+        }
+    });
+    return existingEmployee === null;
+}
+
 async function addEmployee(employee) {
     try {
+        const isUnique = await isUniqueEmployee(employee.email, employee.phone);
+
+        if (!isUnique) {
+            throw new Error('Email or phone number already exists.');
+        }
+
         // Create a new employee record in the database
         const newEmployee = await Employee.create(employee);
-        return newEmployee.id;
+        return ("employee has been added successfully");
     } catch (error) {
         throw new Error('Error adding employee: ' + error.message);
     }

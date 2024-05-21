@@ -3,7 +3,7 @@ const router = express.Router();
 const Employee = require('../db/models/Employee.model');
 
 // Add Employee
-router.post("/add", async (req, res) => {
+router.post("/emp/add", async (req, res) => {
     try {
         const employee = new Employee(req.body);
         let result = await employee.save();
@@ -16,7 +16,7 @@ router.post("/add", async (req, res) => {
 });
 
 // Update Employee
-router.put("/update/:id", async (req, res) => {
+router.put("/emp/update/:id", async (req, res) => {
     const response = await Employee.updateOne(
         {_id:req.params.id},
         {
@@ -42,7 +42,7 @@ router.delete("/delete/:id", async (req, res) => {
     }
 });
 
-router.get('/allEmployees', async(req, res)=>{
+router.get('/emp/allEmployees', async(req, res)=>{
     let employees = await Employee.find();
     if (employees.length > 0) {
         res.send(employees);
@@ -51,7 +51,7 @@ router.get('/allEmployees', async(req, res)=>{
     }
 })
 
-router.get('/search/:key', async (req, res) => {
+router.get('/emp/search/:key', async (req, res) => {
     const response = await Employee.find({
         "$or": [
              {name: { $regex: req.params.key, $options: 'i'}},
@@ -64,7 +64,7 @@ router.get('/search/:key', async (req, res) => {
        })
        res.send(response);
 })
-router.get('/employeeDetail/:id', async (req, res) => {
+router.get('/emp/employeeDetail/:id', async (req, res) => {
     try {
         const response = await Employee.findOne({ _id: req.params.id });
         if (response) {

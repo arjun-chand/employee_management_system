@@ -31,7 +31,7 @@ export default function Employees() {
 
   const getEmployees = async () => {
     try {
-      const response = await axios.get("http://localhost:3100/emp/allEmployees");
+      const response = await axios.get("http://localhost:3100/emp/all");
       setEmployees(response.data);
     } catch (error) {
       console.error('Error fetching employees:', error);

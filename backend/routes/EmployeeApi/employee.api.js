@@ -6,10 +6,10 @@ const EmployeeService = require('../../service/EmployeeService/employeeService.s
 router.post('/emp/add', async (req, res) => {
     try {
         const employeeId = await EmployeeService.addEmployee(req.body);
-        res.status(201).json({ id: employeeId });
+        res.status(201).send("employee has been added successfully");
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).send(error.message);
     }
 });
 

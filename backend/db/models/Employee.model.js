@@ -19,36 +19,36 @@ const Employee = sequelize.define(
             unique: true
         },
         phone: {
-            type: DataTypes.STRING(200),
+            type: DataTypes.STRING,
             allowNull: false,
             unique: true
         },
         city: {
-            type: DataTypes.STRING(200)
+            type: DataTypes.STRING
         },
         state: {
-            type: DataTypes.STRING(200)
+            type: DataTypes.STRING
         },
         country: {
-            type: DataTypes.STRING(200),
+            type: DataTypes.STRING,
             allowNull: false
         },
         gender: {
-            type: DataTypes.STRING(10),
+            type: DataTypes.STRING,
             validate: {
                 isIn: [['Male', 'Female', 'Other']]
             }
         },
         education: {
-            type: DataTypes.STRING(200)
+            type: DataTypes.STRING
         },
         hobbies: {
-            type: DataTypes.ARRAY(DataTypes.STRING(200))
+            type: DataTypes.STRING
         }
     },
     {
-        tableName: 'Employee', // Set the table name
-        timestamps: false // Disable timestamps if not needed
+        tableName: 'Employee',
+        timestamps: true
     }
 );
 

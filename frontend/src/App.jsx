@@ -8,6 +8,7 @@ import Login from './components/user/Login'
 import Signup from './components/user/signup'
 import EmployeeDetails from './components/Employees/EmployeeDetails'
 import AddEmployee from './components/Employees/AddEmployee'
+import UserProfile from './components/user/UserProfile'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -20,6 +21,7 @@ function App() {
             <Route path ="/" element={<Employees/>}/>
             <Route path ="/employeeDetails/:id" element={<EmployeeDetails/>}/>
             <Route path ="/addEmployee" element ={<AddEmployee/>}/>
+            <Route path ="/profile" element = {<UserProfile/>}/>
           </Route>
 
           <Route path ="/signin" element={<Login/>}/>

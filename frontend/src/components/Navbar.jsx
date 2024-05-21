@@ -37,7 +37,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <Disclosure as="nav" className="bg-gradient-to-r from-violet-300 to-purple-700">
+      <Disclosure as="nav" className="bg-gradient-to-r from-violet-300 to-purple-700 fixed top-0 left-0 right-0 z-50">
         {({ open }) => (
           <>
             <div className=" max-w-9xl px-2 sm:px-6 lg:px-8">
@@ -83,6 +83,7 @@ const Navbar = () => {
                     </div>
                   )}
                 </div>
+                <div>Task Management is in Progress & will be updated soon</div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                   {userName && (
                     <Menu as="div" className="relative ml-3">
@@ -111,7 +112,7 @@ const Navbar = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                to="/"
+                                to="/profile"
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                               >
                                 Your Profile
@@ -168,6 +169,7 @@ const Navbar = () => {
           </>
         )}
       </Disclosure>
+      <div className='pt-16'></div>
     </div>
   );
 };
