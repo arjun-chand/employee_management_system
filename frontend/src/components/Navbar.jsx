@@ -29,11 +29,19 @@ const Navbar = () => {
     return classes.filter(Boolean).join(' ');
   }
 
+  const handleProfile = ()=>{
+    navigate('/profile');
+  }
+
+  const handleSettings= () =>{
+    navigate('/settings');
+  }
   const logout = () => {
     document.cookie = 'token=; Max-Age=0; path=/;';
     console.log("logged out successfully");
     navigate('/signin');
   };
+
 
   return (
     <div>
@@ -109,7 +117,8 @@ const Navbar = () => {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                          <Menu.Item>
+                          <Menu.Item
+                          onClick={handleProfile}>
                             {({ active }) => (
                               <Link
                                 to="/profile"
@@ -119,10 +128,11 @@ const Navbar = () => {
                               </Link>
                             )}
                           </Menu.Item>
-                          <Menu.Item>
+                          <Menu.Item
+                          onClick={handleSettings}>
                             {({ active }) => (
                               <Link
-                                to="/"
+                                to="/settings"
                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                               >
                                 Settings
