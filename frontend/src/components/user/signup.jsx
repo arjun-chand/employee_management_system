@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Signup = () => {
 
@@ -10,24 +11,22 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
 
-  const auth = localStorage.getItem('user')
   useEffect(() => {
-    if (auth) {
+    const token = Cookies.get('token');
+    if (token) {
       navigate('/');
     }
-  }, [auth, navigate]);
-
+  }, [navigate]);
 
   const collectData = async () => {
-    console.log(name, email, password);
     if (password !== confirmPassword) {
       setPasswordError("Password and Confirm Password do not match");
       return;
     }
     if (!validateEmail(email)) {
-      alert("Email address is not valid");
       setEmailError("Please enter a valid email");
       return;
     }
@@ -41,16 +40,19 @@ const Signup = () => {
           "Content-Type": "application/json"
         }
       });
-      console.log(response.data); // Log the response data if needed
-      localStorage.setItem("user", JSON.stringify(response));
-      navigate('/')
+      Cookies.set('token', response.data.token, { expires: 7 }); // Set cookie with expiry of 7 days
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+        navigate('/');
+      }, 3000);
     } catch (error) {
       console.error('Error:', error);
     }
   }
 
   const handleSignin = () => {
-    navigate('/signin')
+    navigate('/signin');
   }
 
   const validateEmail = (email) => {
@@ -151,9 +153,13 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      {showAlert && (
+        <div className="absolute bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md">
+          Signed up successfully!
+        </div>
+      )}
     </div>
-  )
-
-}
+  );
+};
 
 export default Signup;

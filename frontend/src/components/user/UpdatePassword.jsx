@@ -28,14 +28,23 @@ export default function UpdatePassword() {
             setTimeout(() => {
                 setShowAlert(false);
                 navigate('/');
-            }, 3000);
+            }, 1500);
         } catch (error) {
             setMessage('');
-            if (error.response && error.response.data) {
-                setError(error.response.data.message);
+            console.error("Update Password Error:", error); // Log the error for debugging
+            console.log(error.response);
+    
+            if (error.response) {
+                setError(error.response.data);
             } else {
                 setError('Server error');
             }
+    
+            // Show the alert for 3 seconds
+            setTimeout(() => {
+                setShowAlert(false);
+                console.log("showAlert set to false after timeout");
+            }, 3000);
         }
     };
 
@@ -45,8 +54,8 @@ export default function UpdatePassword() {
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Update Password</h2>
                 </div>
-                {showAlert && <Alert severity="success" onClose={() => setShowAlert(false)} variant="outlined" sx={{ mb: 2 }}>Password updated successfully</Alert>}
-                {error && <Alert severity="error" variant="outlined" sx={{ mb: 2 }}>{error}</Alert>}
+                {showAlert && <Alert color="success" variant="soft" onClose={() => setShowAlert(false)} sx={{ mb: 2 }}>Password updated successfully</Alert>}
+                {error && <Alert color="danger" variant="soft" sx={{ mb: 2 }}>{error}</Alert>}
                 <form className="mt-8 space-y-6" onSubmit={(e) => { e.preventDefault(); updatePassword(); }}>
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>

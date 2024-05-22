@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database.config'); // Import the Sequelize instance
-const Employee = require('./Employee.model');
-// Define the User model
+const sequelize = require('../database.config');
+
 const User = sequelize.define(
     'User',
     {
@@ -20,11 +19,9 @@ const User = sequelize.define(
         }
     },
     {
-        tableName: 'User', // Set the table name
-        timestamps: true // Enable timestamps (created_at and updated_at columns)
+        tableName: 'User',
+        timestamps: true
     }
 );
 
-User.hasMany(Employee, { as: 'Employee' });
-// Export the User model
 module.exports = User;

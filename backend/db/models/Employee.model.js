@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database.config'); // Adjust path as necessary
+const User = require('./User.model');
 
 const Employee = sequelize.define(
     'Employee',
@@ -51,5 +52,5 @@ const Employee = sequelize.define(
         timestamps: true
     }
 );
-
+Employee.belongsTo(User)
 module.exports = Employee;
