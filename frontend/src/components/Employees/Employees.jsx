@@ -257,7 +257,7 @@ export default function Employees() {
               className="card m-3 hover:cursor-pointer hover:scale-105 hover:duration-200 hover:transition-transform hover:ease-in-out shadow-2x"
 
               onClick={() => {
-                navigate(`/employeeDetails/${employee._id}`);
+                navigate(`/employeeDetails/${employee.id}`);
               }}
             >
               <CardHeader

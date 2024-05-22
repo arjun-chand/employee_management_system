@@ -4,13 +4,17 @@ import LockIcon from '@mui/icons-material/Lock';
 
 const Settings = () => {
   return (
-    <div className='flex flex-col justify-center'>
-        <div className=' p-5 pb-5 flex justify-center w-4/5 h-8 shadow-[0_2.8px_2.2px_rgba(0,_0,_0,_0.034),_0_6.7px_5.3px_rgba(0,_0,_0,_0.048),_0_12.5px_10px_rgba(0,_0,_0,_0.06),_0_22.3px_17.9px_rgba(0,_0,_0,_0.072),_0_41.8px_33.4px_rgba(0,_0,_0,_0.086),_0_100px_80px_rgba(0,_0,_0,_0.12)]'>
-            <p>Change Name <DriveFileRenameOutlineIcon/></p>
-        </div>
-        <div>
-            <p>Change Password <LockIcon/> </p>
-        </div>
+    <div className='flex flex-col items-center justify-center my-5 p-5'>
+      <div className='flex justify-center items-center w-2/5 h-14 shadow-2xl border border-gray-300 rounded-md mb-5 cursor-pointer hover:bg-gray-100'>
+        <p className='flex items-center'>
+          Change Name <DriveFileRenameOutlineIcon className='ml-2' style={{ fontSize: '1rem' }}/>
+        </p>
+      </div>
+      <div className='flex justify-center items-center w-2/5 h-14 shadow-2xl border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100'>
+        <p className='flex items-center'>
+          Change Password <LockIcon className='ml-2' style={{ fontSize: '1rem' }}/>
+        </p>
+      </div>
     </div>
   )
 }

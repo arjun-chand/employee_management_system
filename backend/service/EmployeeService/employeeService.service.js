@@ -1,6 +1,7 @@
 const Employee = require('../../db/models/Employee.model');
 const { Op, Sequelize } = require('sequelize');
 
+
 async function isUniqueEmployee(email, phone) {
     const existingEmployee = await Employee.findOne({
         where: {

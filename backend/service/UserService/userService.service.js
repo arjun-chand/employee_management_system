@@ -65,8 +65,45 @@ async function getProfile(req, res) { // Accept req and res as parameters
     }
 }
 
+async function updatePassword(req, res){
+    try {
+        const { oldPassword, newPassword, confirmNewPassword } = req.body;
+
+        // Validate the inputs
+        if (!oldPassword || !newPassword || !confirmNewPassword) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        if (newPassword !== confirmNewPassword) {
+            return res.status(400).json({ message: 'New passwords do not match' });
+        }
+
+        // Directly use the user from the request object
+        const user = req.user;
+
+        // Check if the old password is correct
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Old password is incorrect' });
+        }
+
+        // Hash the new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Update the password in the database
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({ message: 'Password updated successfully' });
+    } catch (error) {
+        console.error('Error updating password:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
 module.exports = {
     signup,
     signin,
-    getProfile
+    getProfile,
+    updatePassword
 };

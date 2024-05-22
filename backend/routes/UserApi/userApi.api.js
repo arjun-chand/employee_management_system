@@ -43,4 +43,12 @@ router.get('/profile', authorize, async (req, res) => {
     }
 });
 
+router.put('/security', authorize, async (req,res) => {
+    try {
+        const result = await UserService.updatePassword(req, res); // Pass req and res
+        res.send("password updated successfully");
+    }catch (error){
+        res.status(500).send(error.message);
+    }
+})
 module.exports = router;
