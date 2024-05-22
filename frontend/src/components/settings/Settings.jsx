@@ -1,8 +1,13 @@
 import React from 'react'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import LockIcon from '@mui/icons-material/Lock';
+import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
+  const navigate = useNavigate();
+  const handleNavigation = () => {
+    navigate('/updatePassword');
+  }
   return (
     <div className='flex flex-col items-center justify-center my-5 p-5'>
       <div className='flex justify-center items-center w-2/5 h-14 shadow-2xl border border-gray-300 rounded-md mb-5 cursor-pointer hover:bg-gray-100'>
@@ -10,7 +15,8 @@ const Settings = () => {
           Change Name <DriveFileRenameOutlineIcon className='ml-2' style={{ fontSize: '1rem' }}/>
         </p>
       </div>
-      <div className='flex justify-center items-center w-2/5 h-14 shadow-2xl border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100'>
+      <div className='flex justify-center items-center w-2/5 h-14 shadow-2xl border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100'
+      onClick={handleNavigation}>
         <p className='flex items-center'>
           Change Password <LockIcon className='ml-2' style={{ fontSize: '1rem' }}/>
         </p>

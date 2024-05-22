@@ -10,6 +10,7 @@ import EmployeeDetails from './components/Employees/EmployeeDetails'
 import AddEmployee from './components/Employees/AddEmployee'
 import UserProfile from './components/user/UserProfile'
 import Settings from './components/settings/Settings'
+import UpdatePassword from './components/user/UpdatePassword'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -24,6 +25,7 @@ function App() {
             <Route path ="/addEmployee" element ={<AddEmployee/>}/>
             <Route path ="/profile" element = {<UserProfile/>}/>
             <Route path='/settings' element={<Settings/>}/>
+            <Route path='/updatePassword' element={<UpdatePassword/>}/>
           </Route>
 
           <Route path ="/signin" element={<Login/>}/>

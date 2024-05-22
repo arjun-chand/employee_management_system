@@ -71,20 +71,23 @@ async function updatePassword(req, res){
 
         // Validate the inputs
         if (!oldPassword || !newPassword || !confirmNewPassword) {
-            return res.status(400).json({ message: 'All fields are required' });
+            throw new Error('All fields are required');
         }
 
         if (newPassword !== confirmNewPassword) {
-            return res.status(400).json({ message: 'New passwords do not match' });
+            throw new Error('New passwords do not match');
         }
 
         // Directly use the user from the request object
         const user = req.user;
 
         // Check if the old password is correct
+        console.log('Old Password:', oldPassword);
+        console.log('User Password:', user.password);
+
         const isMatch = await bcrypt.compare(oldPassword, user.password);
         if (!isMatch) {
-            return res.status(400).json({ message: 'Old password is incorrect' });
+            throw new Error('Old password is incorrect');
         }
 
         // Hash the new password
@@ -95,12 +98,13 @@ async function updatePassword(req, res){
         user.password = hashedPassword;
         await user.save();
 
-        return res.status(200).json({ message: 'Password updated successfully' });
+        return { message: 'Password updated successfully' };
     } catch (error) {
         console.error('Error updating password:', error);
-        return res.status(500).json({ message: 'Server error' });
+        throw error;
     }
 };
+
 module.exports = {
     signup,
     signin,

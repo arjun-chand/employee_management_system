@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database.config'); // Import the Sequelize instance
-
+const Employee = require('./Employee.model');
 // Define the User model
 const User = sequelize.define(
     'User',
@@ -25,5 +25,6 @@ const User = sequelize.define(
     }
 );
 
+User.hasMany(Employee, { as: 'Employee' });
 // Export the User model
 module.exports = User;
