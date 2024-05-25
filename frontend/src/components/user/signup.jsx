@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { Alert } from '@mui/joy';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -14,6 +15,7 @@ const Signup = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("success");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +35,7 @@ const Signup = () => {
       return;
     }
     try {
+      setLoading(true);
       const response = await axios.post('http://localhost:3100/signup', {
         name,
         email,
@@ -43,9 +46,10 @@ const Signup = () => {
         }
       });
 
-      setAlertMessage("Verification email sent. Please check your inbox.");
+      setAlertMessage("Verification email sent. Please check your inbox. Link will Expire in 5 minutes");
       setAlertSeverity("success");
       setShowAlert(true);
+      setLoading(false);
 
       setTimeout(() => {
         setShowAlert(false);
@@ -56,6 +60,7 @@ const Signup = () => {
       setAlertMessage("Error during signup. Please try again.");
       setAlertSeverity("error");
       setShowAlert(true);
+      setLoading(false);
     }
   }
 
@@ -70,7 +75,17 @@ const Signup = () => {
 
   return (
     <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
-      <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
+      {showAlert && (
+        <Alert
+          variant="soft"
+          color={alertSeverity}
+          style={{ position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}
+        >
+          {alertMessage}
+        </Alert>
+      )}
+      <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1 relative">
+      {loading && <LinearProgress style={{ position: 'absolute', top: 0, left: 0, right: 0, width: '100%' }} />}
         <div className="flex-1 bg-violet-100 text-center hidden md:flex">
           <div
             className="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
@@ -79,8 +94,9 @@ const Signup = () => {
             }}
           ></div>
         </div>
-        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-          <div className=" flex flex-col items-center">
+        <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12 relative">
+         
+          <div className="flex flex-col items-center">
             <div className="text-center">
               <h1 className="text-2xl xl:text-4xl font-extrabold text-violet-500">
                 Sign up
@@ -111,7 +127,6 @@ const Signup = () => {
                 {emailError && (
                   <p className="text-red-500 text-sm">{emailError}</p>
                 )}
-
                 <input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -132,10 +147,10 @@ const Signup = () => {
                 {passwordError && (
                   <p className="text-red-500 text-sm">{passwordError}</p>
                 )}
-
                 <button
                   onClick={collectData}
-                  className="mt-5 tracking-wide font-semibold bg-violet-500 text-gray-100 w-full py-4 rounded-lg hover:bg-violet-400 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                  className="mt-5 tracking-wide font-semibold bg-violet-500 text-gray-100 w-full py-4 rounded-lg hover:bg-violet-400 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                >
                   <svg
                     className="w-6 h-6 -ml-2"
                     fill="none"
@@ -161,15 +176,6 @@ const Signup = () => {
           </div>
         </div>
       </div>
-      {showAlert && (
-        <Alert
-          variant="soft"
-          color={alertSeverity}
-          style={{ position: 'absolute', bottom: '20px', right: '20px' }}
-        >
-          {alertMessage}
-        </Alert>
-      )}
     </div>
   );
 };

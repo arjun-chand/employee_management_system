@@ -1,64 +1,75 @@
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../../middlewares/auth.middleware');
-const  User  = require('../../db/models/User.model');
+const User = require('../../db/models/User.model');
 const { sendVerificationEmail } = require('../../middlewares/email.middleware'); // Adjust the path to your User model
 
-    async function signup(user) {
-        const { name, email, password } = user;
-        try {
-          // Check if email already exists
-          const existingUser = await User.findOne({ where: { email } });
-          if (existingUser) {
+async function signup(user) {
+    const { name, email, password } = user;
+    try {
+        // Check if email already exists
+        const existingUser = await User.findOne({ where: { email } });
+        if (existingUser) {
             throw new Error('Email already exists');
-          }
-          // Hash the password
-          const hashedPassword = await bcrypt.hash(password, 10);
-      
-          // Create new user
-          const newUser = await User.create({
+        }
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create new user
+        const newUser = await User.create({
             name,
             email,
             password: hashedPassword,
-            verified: false
-          });
-      
-          // Create verification link
-          const verificationLink = `http://localhost:3100/verify-email?email=${email}`;
-      
-          // Send verification email
-          await sendVerificationEmail(email, verificationLink);
-      
-          // Return message
-          return { message: 'Verification email sent. Please check your inbox.' };
-        } catch (error) {
-          throw new Error('Error signing up user: ' + error.message);
+            verified: false,
+            verificationSentAt: new Date(),
+        });
+
+        // Create verification link
+        const verificationLink = `http://localhost:3100/verify-email?email=${email}`;
+
+        // Send verification email
+        await sendVerificationEmail(email, verificationLink);
+
+        // Schedule a job to delete the user if not verified within 3 minutes
+        setTimeout(async () => {
+            const user = await User.findOne({ where: { email } });
+            if (user && !user.verified) {
+                await User.destroy({ where: { email } });
+                console.log(`Unverified user ${email} has been deleted.`);
+            }
+        }, 5 * 60 * 1000); // 3 minutes in milliseconds
+
+        // Return message
+        return { message: 'Verification email sent. Please check your inbox.' };
+    } catch (error) {
+        throw new Error('Error signing up user: ' + error.message);
+    }
+}
+
+
+async function verifyEmail(req, res) {
+    try {
+        // Get the email from the URL parameters
+        const { email } = req.query;
+
+        if (!email) {
+            throw new Error('No email provides or Link has Expired');
         }
-      }
-      
-      async function verifyEmail(req, res) {
-        try {
-          // Get the email from the URL parameters
-          const { email } = req.query;
-      
-          if (!email) {
-            throw new Error('No email provided');
-          }
-      
-          // Update the user to set verified to true
-          const [updated] = await User.update(
+
+        // Update the user to set verified to true
+        const [updated] = await User.update(
             { verified: true },
             { where: { email: email } }
-          );
-      
-          if (updated === 0) {
+        );
+
+        if (updated === 0) {
             throw new Error('Invalid or expired verification link.');
-          }
-      
-          res.status(200).json({ message: 'Email verified successfully. You can now log in.' });
-        } catch (error) {
-          res.status(400).json({ error: error.message });
         }
-      }
+
+        res.status(200).json({ message: 'Email verified successfully. You can now log in.' });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
 
 async function signin(email, password) {
     try {
@@ -68,6 +79,9 @@ async function signin(email, password) {
             throw new Error('Email does not exist');
         }
 
+        if (!user.verified) {
+            throw new Error('Your email is not verified. Please verify it first.');
+        }
         // Compare passwords
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
@@ -96,7 +110,7 @@ async function getProfile(req, res) { // Accept req and res as parameters
     }
 }
 
-async function updatePassword(req, res){
+async function updatePassword(req, res) {
     try {
         const { oldPassword, newPassword, confirmNewPassword } = req.body;
 

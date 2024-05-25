@@ -21,7 +21,10 @@ const User = sequelize.define(
             type: DataTypes.BOOLEAN,
             defaultValue: false,
         },
-    
+        verificationSentAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
+        },
     },
     {
         tableName: 'User',
