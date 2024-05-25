@@ -1,41 +1,71 @@
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../../middlewares/auth.middleware');
 const  User  = require('../../db/models/User.model');
+const { sendVerificationEmail } = require('../../middlewares/email.middleware'); // Adjust the path to your User model
 
-async function signup(user) {
-    const { name, email, password } = user;
-    try {
-        // Check if email already exists
-        const existingUser = await User.findOne({ where: { email } });
-        if (existingUser) {
+    async function signup(user) {
+        const { name, email, password } = user;
+        try {
+          // Check if email already exists
+          const existingUser = await User.findOne({ where: { email } });
+          if (existingUser) {
             throw new Error('Email already exists');
-        }
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Create new user
-        const newUser = await User.create({
+          }
+          // Hash the password
+          const hashedPassword = await bcrypt.hash(password, 10);
+      
+          // Create new user
+          const newUser = await User.create({
             name,
             email,
-            password: hashedPassword
-        });
-
-        // Generate token
-        const token = generateToken({ id: newUser.id, email: newUser.email });
-
-        // Return token
-        return { token };
-    } catch (error) {
-        throw new Error('Error signing up user: ' + error.message);
-    }
-}
+            password: hashedPassword,
+            verified: false
+          });
+      
+          // Create verification link
+          const verificationLink = `http://localhost:3100/verify-email?email=${email}`;
+      
+          // Send verification email
+          await sendVerificationEmail(email, verificationLink);
+      
+          // Return message
+          return { message: 'Verification email sent. Please check your inbox.' };
+        } catch (error) {
+          throw new Error('Error signing up user: ' + error.message);
+        }
+      }
+      
+      async function verifyEmail(req, res) {
+        try {
+          // Get the email from the URL parameters
+          const { email } = req.query;
+      
+          if (!email) {
+            throw new Error('No email provided');
+          }
+      
+          // Update the user to set verified to true
+          const [updated] = await User.update(
+            { verified: true },
+            { where: { email: email } }
+          );
+      
+          if (updated === 0) {
+            throw new Error('Invalid or expired verification link.');
+          }
+      
+          res.status(200).json({ message: 'Email verified successfully. You can now log in.' });
+        } catch (error) {
+          res.status(400).json({ error: error.message });
+        }
+      }
 
 async function signin(email, password) {
     try {
         // Find the user by email
         const user = await User.findOne({ where: { email } });
         if (!user) {
-            throw new Error('Email is not valid');
+            throw new Error('Email does not exist');
         }
 
         // Compare passwords
@@ -53,6 +83,7 @@ async function signin(email, password) {
         throw new Error('Error signing in user: ' + error.message);
     }
 }
+
 async function getProfile(req, res) { // Accept req and res as parameters
     try {
         const user = await User.findByPk(req.user.id);
@@ -109,5 +140,6 @@ module.exports = {
     signup,
     signin,
     getProfile,
-    updatePassword
+    updatePassword,
+    verifyEmail
 };

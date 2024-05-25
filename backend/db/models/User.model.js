@@ -16,7 +16,12 @@ const User = sequelize.define(
         password: {
             type: DataTypes.STRING,
             allowNull: false
-        }
+        },
+        verified: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+    
     },
     {
         tableName: 'User',

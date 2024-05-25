@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { Alert } from '@mui/joy';
 
 const Signup = () => {
-
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -12,6 +12,8 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("success");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,14 +42,20 @@ const Signup = () => {
           "Content-Type": "application/json"
         }
       });
-      Cookies.set('token', response.data.token, { expires: 7 }); // Set cookie with expiry of 7 days
+
+      setAlertMessage("Verification email sent. Please check your inbox.");
+      setAlertSeverity("success");
       setShowAlert(true);
+
       setTimeout(() => {
         setShowAlert(false);
-        navigate('/');
+        navigate('/signin');
       }, 3000);
     } catch (error) {
       console.error('Error:', error);
+      setAlertMessage("Error during signup. Please try again.");
+      setAlertSeverity("error");
+      setShowAlert(true);
     }
   }
 
@@ -154,9 +162,13 @@ const Signup = () => {
         </div>
       </div>
       {showAlert && (
-        <div className="absolute bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md">
-          Signed up successfully!
-        </div>
+        <Alert
+          variant="soft"
+          color={alertSeverity}
+          style={{ position: 'absolute', bottom: '20px', right: '20px' }}
+        >
+          {alertMessage}
+        </Alert>
       )}
     </div>
   );

@@ -3,7 +3,7 @@ const User = require('../db/models/User.model'); // Adjust the path to your User
 
 // Function to generate JWT token
 function generateToken(userData) {
-  return jwt.sign(userData, process.env.JWT_SECRET);
+  return jwt.sign(userData, process.env.JWT_SECRET,{ expiresIn: '1h' });
 }
 
 // Middleware to authorize requests
